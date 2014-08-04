@@ -2,17 +2,27 @@
 {
     $(document).ready(function()
     {
-        order = shuffleImages();
         imagesPerPage = 10;
         gridWidth = ($(window).width()/3)-5;
 
+        order = shuffleImages();
+
         for(i=0;i<imagesPerPage;i++) {
-            $('<img src="images/' + order[i] + '.gif">').width(gridWidth).appendTo('#container');
+            $("<img />").attr('src', 'images/' + order[i] + '.gif')
+                        .attr('width',gridWidth)
+                        .load(function() {
+                            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                                alert('broken image!');
+                            } else {
+                                $("#container").append(this);
+                                $('#container').freetile({
+                                    animate : true,
+                                    elementDelay : 30
+                                });
+                            }
+                        });
         }
-        $('#container').freetile({
-            animate : true,
-            elementDelay : 30
-        });
+
     });
 
     function shuffleImages(){
