@@ -1,1 +1,0 @@
-var imageCount = 159;
