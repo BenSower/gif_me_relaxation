@@ -8,7 +8,14 @@
         order = shuffleImages();
 
         for(i=0;i<imagesPerPage;i++) {
-            $("<img />").attr('src', 'images/' + order[i] + '.gif')
+           getNextPicture(i);
+        }
+
+    });
+
+
+    function getNextPicture(i){
+         $("<img />").attr('src', 'images/' + order[i] + '.gif')
                         .attr('width',gridWidth)
                         .load(function() {
                             if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
@@ -21,9 +28,7 @@
                                 });
                             }
                         });
-        }
-
-    });
+    }
 
     function shuffleImages(){
 
