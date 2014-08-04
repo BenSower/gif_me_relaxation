@@ -8,14 +8,26 @@
         gridWidth = ($(window).width()/3)-5;
         order = shuffleImages();
         //create initial imageset
+        getNextPictures();
+    });
+
+    function getNextPictures(){
+        //add new images
         for(i=0;i<imagesPerPage;i++) {
            getNextPicture();
         }
-    });
+        //wait and start again
+        setTimeout(function()
+            {
+                //clear container
+                $('#container').empty()
+                getNextPictures();
+            }, 15000);
+    }
 
     function getNextPicture(){
         this.globalCounter++;
-         $("<img />").attr('src', 'images/' + order[this.globalCounter] + '.gif')
+         $("<img />").attr('src', 'images/' + order[this.globalCounter % imageCount] + '.gif')
                     .attr('width',gridWidth)
                     .load(function() {
                         if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
@@ -24,15 +36,8 @@
                             $("#container").append(this);
                             $('#container').freetile({
                                 animate : true,
-                                elementDelay : 300
+                                elementDelay : 100
                             });
-                            var self = this;
-                            setTimeout(
-                                function()
-                                {
-                                    self.remove();
-                                    getNextPicture();
-                                }, randomIntFromInterval(5000,60000));
                         }
                     });
     }
